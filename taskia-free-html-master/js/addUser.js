@@ -1,21 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    const userForm = document.getElementById('userForm'); // Perbaiki ID
+    const userForm = document.getElementById('userForm');
     const userManager = new User();
 
-    if (userForm) {
-        userForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const userData = {
-                username: document.getElementById('username').value,
-            };
+    userForm.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-            userManager.saveUser(userData);
-        });
-        
-    } else {
-        console.error("Form dengan ID 'userForm' tidak ditemukan");
-    }
+        const usernameByInput = document.getElementById('username').value;
 
+        // Menambahkan user dengan memanggil metode saveUser
+        const result = userManager.saveUser({ username: usernameByInput });
+
+        if (result.success) {
+            alert('User berhasil ditambahkan!');
+            window.location.href = './tasks.html';  // Arahkan ke halaman tugas
+        } else {
+            alert(result.message || 'Proses signup gagal');
+            console.log(result.message);
+        }
+    });
 });
