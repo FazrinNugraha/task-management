@@ -20,8 +20,23 @@ class Task {
         };
 
         this.tasks.push(newTaskData);
-        localStorage.setItem('tasks', JSON.stringify(this.tasks));
+        this.updateLocalStorage();
 
         return { success: true };
+    }
+
+    completedTask(taskId) {
+        const index = this.tasks.findIndex(task => task.id === taskId);
+
+        if (index !== -1) {
+            this.tasks[index].isCompleted = true;
+            this.updateLocalStorage();
+        } else {
+            console.log('Tugas tidak ditemukan');
+        }
+    }
+
+    updateLocalStorage() {
+        localStorage.setItem('tasks', JSON.stringify(this.tasks));
     }
 }
