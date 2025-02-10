@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     const myTasks = new Task();
-    let existingTasks = myTasks.getTasks(); // Menggunakan variabel yang bisa diperbarui
+    let existingTasks = myTasks.getTasks(); // Gunakan variabel agar bisa diperbarui
 
     const taskWrapper = document.getElementById('taskWrapper');
     const taskWrapperEmpty = document.getElementById('taskWrapperEmpty');
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                     <div class="flex flex-row items-center gap-x-3">
-                        <a href="#" class="my-auto font-semibold text-taskia-red border border-taskia-red p-[12px_20px] h-12 rounded-full">Delete</a>
+                        <a href="#" id="deleteTask-${task.id}" class="my-auto font-semibold text-taskia-red border border-taskia-red p-[12px_20px] h-12 rounded-full">Delete</a>
                         <a href="#" id="completeTask-${task.id}" class="flex gap-[10px] justify-center items-center text-white p-[12px_20px] h-12 font-semibold ${task.isCompleted ? 'bg-gray-400' : 'bg-gradient-to-b from-[#977FFF] to-[#6F4FFF]'} rounded-full w-full border border-taskia-background-grey">
                             ${task.isCompleted ? 'Completed' : 'Complete'}
                         </a>
@@ -63,16 +63,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 taskWrapper.appendChild(itemTask);
 
+                // Tambahkan event listener untuk tombol "Complete"
                 const completeBtn = itemTask.querySelector(`#completeTask-${task.id}`);
-                
                 if (!task.isCompleted) {
                     completeBtn.addEventListener('click', function (event) {
                         event.preventDefault();
                         myTasks.completedTask(task.id);
-                        existingTasks = myTasks.getTasks(); // Perbarui daftar task
-                        displayAllTasks(existingTasks); // Refresh tampilan tanpa reload
+                        existingTasks = myTasks.getTasks();
+                        displayAllTasks(existingTasks);
                     });
                 }
+
+                // Tambahkan event listener untuk tombol "Delete"
+                const deleteBtn = itemTask.querySelector(`#deleteTask-${task.id}`);
+                deleteBtn.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    myTasks.deleteTask(task.id);
+                    existingTasks = myTasks.getTasks();
+                    displayAllTasks(existingTasks);
+                });
             });
         }
     }

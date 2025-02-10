@@ -36,6 +36,11 @@ class Task {
         }
     }
 
+    deleteTask(taskId) {
+        this.tasks = this.tasks.filter(task => task.id !== taskId);
+        this.updateLocalStorage();
+    }
+
     updateLocalStorage() {
         localStorage.setItem('tasks', JSON.stringify(this.tasks));
     }
